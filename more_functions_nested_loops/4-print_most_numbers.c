@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 /**
- * print_numbers -  function that checks for uppercase character
+ * print_most_numbers -  function that checks for uppercase character
  *
  * Return: always
  */
