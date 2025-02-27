@@ -5,20 +5,20 @@
  * *_strcpy -   string pointed to by src
  * @dest: the pointer
  * @src:  string pointed
- * Return: \n
+ * Return: dest
  */
 
- char *_strcpy(char *dest, char *src)
-{
-	int i = 0;
+char *_strcpy(char *dest, char *src)
 
-	for (i = 0; i < n; i++)
+{
+
+int length = 0;
+
+	while (src[length] != '\0')
 	{
-	printf("%d", a[i]);
-	if (i < n - 1)
-	{
-	printf(", ");
+	dest[length] = src[length];
+	length++;
 	}
-}
-	printf("\n");
+	dest[length] = '\0';
+	return (dest);
 }
