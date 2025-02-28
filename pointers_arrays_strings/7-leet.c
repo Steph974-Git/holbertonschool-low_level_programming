@@ -11,31 +11,21 @@ char *leet(char *str)
 
 {
 	char *p = str;
+	char leet_chars[] = "aAeEoOtTlL";
+	char leet_vals[] = "44330771";
+	int i;
 
 	while (*p)
 	{
-	if (*p == 'a' || *p == 'A')
-	{
-		*p = '4';
+		for (i = 0; leet_chars[i] != '\0'; i++)
+		{
+		if (*p == leet_chars[i])
+		{
+		*p = leet_vals[i];
+		break;
+		}
 	}
-	else if (*p == 'e' || *p == 'E')
-	{
-		*p = '3';
-	}
-	else if (*p == 'o' || *p == 'O')
-	{
-		*p = '0';
-	}
-	else if (*p == 't' || *p == 'T')
-	{
-		*p = '7';
-	}
-	else if (*p == 'l' || *p == 'L')
-	{
-		*p = '1';
-	}
-
-		p++;
+	p++;
 	}
 	return (str);
 }
