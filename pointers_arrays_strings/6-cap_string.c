@@ -26,9 +26,16 @@ char *cap_string(char *str)
 		break;
 }
 }
-	if (cap == 1 && str[i] >= 'a' && str[i] <= 'z')
+	if (cap == 1)
 {
-		str[i] = str[i] - 32;
+		if (str[i] >= 'a' && str[i] <= 'z')
+{
+			str[i] = str[i] - 32;
+}
+		cap = 0;
+}
+	else if (str[i] >= 'A' && str[i] <= 'Z')
+{
 		cap = 0;
 }
 	i++;
