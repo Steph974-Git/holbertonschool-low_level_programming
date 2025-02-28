@@ -35,10 +35,6 @@ char *cap_string(char *str)
 		{
 			cap = 0;
 		}
-		else if (str[i] >= '0' && str[i] <= '9')
-		{
-			cap = 1;
-		}
 		else if ((str[i] == ' ' || str[i] == '\n' || str[i] == '\t') && cap == 1)
 		{
 		}
