@@ -18,28 +18,24 @@ char *cap_string(char *str)
 
 	while (str[i] != '\0')
 	{
-	for (j = 0; j < sizeof(arr) / sizeof(arr[0]); j++)
-{
-		if (str[i] == arr[j])
-{
-		cap = 1;
-		break;
-}
-}
-	if (cap == 1)
-{
-		if (str[i] >= 'a' && str[i] <= 'z')
-{
+		for (j = 0; j < sizeof(arr) / sizeof(arr[0]); j++)
+		{
+			if (str[i] == arr[j])
+			{
+				cap = 1;
+				break;
+			}
+		}
+		if (cap == 1 && str[i] >= 'a' && str[i] <= 'z')
+		{
 			str[i] = str[i] - 32;
+			cap = 0;
+		}
+		else if (str[i] >= 'A' && str[i] <= 'Z')
+		{
+			cap = 0;
+		}
+		i++;
+	}
+	return str;
 }
-		cap = 0;
-}
-	else if (str[i] >= 'A' && str[i] <= 'Z')
-{
-		cap = 0;
-}
-	i++;
-}
-	return (str);
-}
-
