@@ -39,7 +39,14 @@ char *cap_string(char *str)
 		{
 			cap = 1;
 		}
+		else if ((str[i] == ' ' || str[i] == '\n' || str[i] == '\t') && cap == 1)
+		{
+		}
+		else
+		{
+			cap = 0;
+		}
 		i++;
-	}
+		}
 	return (str);
 }
