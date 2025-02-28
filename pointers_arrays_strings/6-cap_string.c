@@ -31,14 +31,8 @@ char *cap_string(char *str)
 			str[i] = str[i] - 32;
 			cap = 0;
 		}
-		else if (str[i] >= 'A' && str[i] <= 'Z')
-		{
-			cap = 0;
-		}
-		else if ((str[i] == ' ' || str[i] == '\n' || str[i] == '\t') && cap == 1)
-		{
-		}
-		else
+		else if ((str[i] >= 'A' && str[i] <= 'Z') ||
+			(str[i] >= '0' && str[i] <= '9'))
 		{
 			cap = 0;
 		}
