@@ -4,22 +4,22 @@
 /**
 * *_strpbrk -  changes all
 * @s:  all lowercase letters
-* @c: the character
+* @a: the character
 * Return: Pointer to the memory area s
 */
 
 char *_strpbrk(char *s, char *accept)
 {
-    while (*s)
-    {
-        char *a = accept;
-    while (*a)
-    {
-        if (*s == *a)
-    return (s);
-    a++;
-    }
-    s++;
-    }
-    return (NULL);
-    }
+	while (*s)
+	{
+	char *a = accept;
+		while (*a)
+	{
+		if (*s == *a)
+		return (s);
+		a++;
+		}
+	s++;
+	}
+	return (NULL);
+	}
