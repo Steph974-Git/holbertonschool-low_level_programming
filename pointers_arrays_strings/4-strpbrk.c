@@ -2,12 +2,11 @@
 #include <stdio.h>
 
 /**
-* *_strpbrk -  changes all
-* @s:  all lowercase letters
-* @a: the character
-* Return: Pointer to the memory area s
+* *_strpbrk - Recherche un caractère dans une chaîne
+* @s: all lowercase letters
+* @accept: Pointeur vers la chaîne de caractères
+* Return: Un pointeur vers le premier caractère de @s
 */
-
 char *_strpbrk(char *s, char *accept)
 {
 	while (*s)
