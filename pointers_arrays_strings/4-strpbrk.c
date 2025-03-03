@@ -2,19 +2,24 @@
 #include <stdio.h>
 
 /**
-* *_strchr -  changes all
+* *_strpbrk -  changes all
 * @s:  all lowercase letters
 * @c: the character
 * Return: Pointer to the memory area s
 */
 
-char *_strchr(char *s, char c)
+char *_strpbrk(char *s, char *accept)
 {
-while (*s)
-{
-if (*s == c)
-retunr (s);
-s++;
-}
-return (NULL);
-}
+    while (*s)
+    {
+        char *a = accept;
+    while (*a)
+    {
+        if (*s == *a)
+    return (s);
+    a++;
+    }
+    s++;
+    }
+    return (NULL);
+    }
