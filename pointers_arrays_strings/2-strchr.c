@@ -2,19 +2,25 @@
 #include <stdio.h>
 
 /**
-* *_strchr -  changes all
-* @s:  all lowercase letters
-* @c: the character
+* *_strchr -  Locate the first occurrence of a character in a string
+* @s:  th string to search in
+* @c: the character to find
 * Return: Pointer to the memory area s
 */
 
 char *_strchr(char *s, char c)
 {
-	while (*s)
+	if (*s == '\0')
+		return (NULL);
+
+	if (c == '\0')
+		return (s);
+
+	while (*s != '\0')
 	{
 		if (*s == c)
 		return (s);
 		s++;
-	}
+}
 	return (NULL);
 }
