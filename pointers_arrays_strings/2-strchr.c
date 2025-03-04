@@ -3,7 +3,7 @@
 
 /**
 * *_strchr -  Locate the first occurrence of a character in a string
-* @s:  th string to search in
+* @s:  the string source
 * @c: the character to find
 * Return: Pointer to the memory area s
 */
@@ -14,10 +14,10 @@ char *_strchr(char *s, char c)
 	{
 		if (*s == c)
 			return (s);
-		s++;
-}
+	s++;
+	}
 	if (c == '\0')
-		return (NULL);
+		return (s);
 
 	return (NULL);
 }
