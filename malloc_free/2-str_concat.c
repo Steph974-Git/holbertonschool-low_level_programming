@@ -4,13 +4,13 @@
 #include <string.h>
 
 /**
- * *_strdup - Crée un tableau de taille donnée et l'initialise avec c
+ * *str_concat - Crée un tableau de taille donnée et l'initialise avec c
  * @str: chaine a copier
  * Return: (copy)
  */
 
 
-char *_strdup(char *str)
+ char *str_concat(char *s1, char *s2)
 {
 	int i;
 	int len = strlen(str);
