@@ -21,19 +21,19 @@ char *string_nconcat(char *s1, char *s2, unsigned int n)
 	if (s1 == NULL)
 		s1 = "";
 
-		if (s2 == NULL)
+	if (s2 == NULL)
 		s2 = "";
 
-			while (s1[len1] != '\0')
-				len1++;
+	while (s1[len1] != '\0')
+		len1++;
 
-				while (len2 < n && s2[len2] != '\0')
-					len2++;
+	while (len2 < n && s2[len2] != '\0')
+		len2++;
 
 
-		sxs = malloc((len1 + len2 + 1) * sizeof(char));
-		if (sxs == NULL)
-			return (NULL);
+			sxs = malloc((len1 + len2 + 1) * sizeof(char));
+			if (sxs == NULL)
+				return (NULL);
 
 			for (j = 0; j < len1; j++)
 			{
