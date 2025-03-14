@@ -1,4 +1,4 @@
-C - argc, argv
+# C - argc, argv
 
 This project focuses on handling command-line arguments in C programs using the `argc` and `argv` parameters of the `main` function.
 
