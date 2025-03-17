@@ -40,7 +40,7 @@ int op_mul(int a, int b)
 }
 
 /**
- * op_mul - Retourne le résultat de la division de a par b
+ * op_div - Retourne le résultat de la division de a par b
  * @a: Le premier opérande
  * @b: Le second opérande
  * Return: Le résultat de la division de a par b
@@ -49,7 +49,7 @@ int op_mul(int a, int b)
 int op_div(int a, int b)
 {
 	if (b == 0)
-	}
+	{
 		printf("Error\n");
 		exit(100);
 	}
@@ -57,7 +57,7 @@ int op_div(int a, int b)
 }
 
 /**
- * op_mul -  Retourne le reste de la division de a par b
+ * op_mod -  Retourne le reste de la division de a par b
  * @a: Le premier opérande
  * @b: Le second opérande
  * Return: Le reste de la division de a par b

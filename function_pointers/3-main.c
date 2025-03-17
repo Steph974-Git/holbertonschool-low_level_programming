@@ -30,5 +30,5 @@ int main(int argc, char *argv[])
 	}
 	printf("%d\n", op_func(num1, num2));
 	return (0);
-	}
+
 }
