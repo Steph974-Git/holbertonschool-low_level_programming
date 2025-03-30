@@ -1,65 +1,50 @@
 # C - Variables, if, else, while
 
-## Learning Objectives
+This repository contains a collection of C programs that demonstrate the use of variables, conditional statements (if-else), and loops (while) in the C programming language.
 
-### General
-- **Arithmetic operators**: Used for mathematical operations (`+`, `-`, `*`, `/`, `%`).
-- **Logical operators**: `&&` (AND), `||` (OR), `!` (NOT) used for boolean expressions.
-- **Relational operators**: Compare values (`==`, `!=`, `<`, `>`, `<=`, `>=`).
-- **TRUE and FALSE values**: In C, `0` is `FALSE`, any nonzero value is `TRUE`.
-- **Boolean operators**: Same as logical operators (`&&`, `||`, `!`).
-- **`if`, `if ... else` statements**: Used for conditional execution.
-- **Comments**: `//` for single-line, `/* ... */` for multi-line.
-- **Variable declaration**: `char`, `int`, `unsigned int` declared before use.
-- **Variable assignment**: `int a = 5;` assigns `5` to `a`.
-- **Printing variables**: `printf("%d", a);` for `int`, `%c` for `char`.
-- **`while` loop**: Executes code while a condition is `TRUE`.
-- **Using variables with `while`**: Example: `while (x > 0) { x--; }`.
-- **ASCII character set**: A standard mapping of characters to numeric values.
-- **GCC flags**: `-m32` compiles for 32-bit, `-m64` for 64-bit architecture.
+## Files and Descriptions
 
-## Tasks
+| File | Description |
+| ---- | ----------- |
+| `0-positive_or_negative.c` | Program that assigns a random number to variable `n` each time it's executed and prints whether the number is positive, negative, or zero |
+| `1-last_digit.c` | Program that prints the last digit of a randomly generated number and checks if it's greater than 5, less than 6 but not 0, or 0 |
+| `2-print_alphabet.c` | Program that prints the alphabet in lowercase using the `putchar` function |
+| `3-print_alphabets.c` | Program that prints the alphabet in lowercase, then in uppercase, followed by a new line using `putchar` |
+| `4-print_alphabt.c` | Program that prints the alphabet in lowercase except the letters 'q' and 'e' |
+| `5-print_numbers.c` | Program that prints all single-digit numbers of base 10 starting from 0 |
+| `6-print_numberz.c` | Program that prints all single-digit numbers of base 10 starting from 0 using only `putchar` function |
+| `7-print_tebahpla.c` | Program that prints the lowercase alphabet in reverse using `putchar` |
+| `8-print_base16.c` | Program that prints all the numbers of base 16 (hexadecimal) in lowercase |
+| `9-print_comb.c` | Program that prints all possible combinations of single-digit numbers separated by commas |
+| `10-print_comb2.c` | Program that prints numbers from 00 to 99 separated by commas |
 
-### 0. Positive anything is better than negative nothing
-Program assigns a random number to `n` and prints whether it's positive, zero, or negative.
+## Requirements
 
-### 1. The last digit
-Program prints the last digit of a random number and categorizes it (>5, 0, <6 but not 0).
+- All programs are compiled on Ubuntu 20.04 LTS using `gcc` with the options: `-Wall -Werror -Wextra -pedantic -std=gnu89`
+- All files should end with a new line
+- Code follows the Betty style guide
+- No global variables are used
+- Each file contains no more than 5 functions
+- No use of functions like `printf`, `puts`, etc. - only `putchar`
+- The prototypes of all functions are included in a header file called `main.h`
 
-### 2. Alphabet game
-Prints the lowercase alphabet using `putchar`.
+## Compilation and Usage
 
-### 3. alphABET
-Prints the alphabet in lowercase and uppercase using `putchar`.
+Programs can be compiled using gcc. For example:
 
-### 4. Alphabet without `q` and `e`
-Prints the alphabet excluding `q` and `e` using `putchar`.
+```
+gcc -Wall -pedantic -Werror -Wextra -std=gnu89 0-positive_or_negative.c -o 0-positive_or_negative
+```
 
-### 5. Numbers
-Prints single-digit base-10 numbers.
+Run the executable to see the output:
 
-### 6. Numberz
-Prints single-digit numbers using `putchar` without `char` variables.
+```
+./0-positive_or_negative
+```
 
-### 7. Reverse alphabet
-Prints the lowercase alphabet in reverse using `putchar`.
+This repository demonstrates fundamental concepts of the C programming language including variables, conditional statements, and loops, which are the building blocks for more complex programming concepts.
 
-### 8. Hexadecimal
-Prints numbers of base 16 in lowercase using `putchar`.
+## Author
 
-### 9. Combinations of single digits
-Prints all single-digit numbers separated by `, ` using `putchar`.
-
-### 10. Two-digit combinations
-Prints different two-digit combinations in ascending order using `putchar`.
-
-### 11. Three-digit combinations
-Prints different three-digit combinations in ascending order using `putchar`.
-
-### 12. Two two-digit number combinations
-Prints all possible combinations of two two-digit numbers using `putchar`.
-
----
-This project reinforces fundamental C concepts such as loops, conditionals, and operators. 🚀
-
-
+Stephane
+```
