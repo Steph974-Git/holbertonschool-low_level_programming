@@ -12,37 +12,14 @@
 
 void free_list(list_t *head)
 {
-	list_t *tmp;
-	int lenght = 0;
-	list_t *tailnode = *head;
-	list_t *new = malloc(sizeof(list_t));
+	list_t *current = head;
+	list_t *next;
 
-	if (new == NULL)
+	while (current != NULL)
 	{
-		return (NULL);
+		next = current->next;
+		free(current->str);
+		free(current);
+		current = next;
 	}
-	while (str[lenght] != '\0')
-	{
-		lenght++;
-	}
-
-	new->str = strdup(str);
-	if (strdup(str) == NULL)
-	{
-		free(new);
-		return (NULL);
-	}
-	new->len = lenght;
-	new->next = NULL;
-
-	if (*head == NULL)
-		*head = new;
-	else
-	{
-		while (tailnode->next != NULL)
-			tailnode = tailnode->next;
-		tailnode->next = new;
-	}
-
-	return (new);
 }
