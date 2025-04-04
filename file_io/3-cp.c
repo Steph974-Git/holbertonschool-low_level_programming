@@ -13,12 +13,12 @@
  */
 void error_handler(int code, char *message, char *arg, int fd_from, int fd_to)
 {
-	if (fd_from > 0)
-		close(fd_from);
-	if (fd_to > 0)
-		close(fd_to);
-	dprintf(STDERR_FILENO, message, arg);
-	exit(code);
+if (fd_from > 0)
+close(fd_from);
+if (fd_to > 0)
+close(fd_to);
+dprintf(STDERR_FILENO, message, arg);
+exit(code);
 }
 
 /**
@@ -29,17 +29,17 @@ void error_handler(int code, char *message, char *arg, int fd_from, int fd_to)
  */
 int close_files(int fd_from, int fd_to)
 {
-	if (close(fd_from) == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_from);
-		exit(100);
-	}
-	if (close(fd_to) == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_to);
-		exit(100);
-	}
-	return (0);
+if (close(fd_from) == -1)
+{
+dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_from);
+exit(100);
+}
+if (close(fd_to) == -1)
+{
+dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_to);
+exit(100);
+}
+return (0);
 }
 
 /**
@@ -50,32 +50,32 @@ int close_files(int fd_from, int fd_to)
  */
 int main(int argc, char *argv[])
 {
-	int fd_from, fd_to;
-	ssize_t bytes_read, bytes_written;
-	char buffer[1024];
+int fd_from = -1, fd_to = -1;
+ssize_t bytes_read, bytes_written;
+char buffer[1024];
 
-	if (argc != 3)
-		error_handler(97, "Usage: cp file_from file_to\n", NULL, -1, -1);
+if (argc != 3)
+error_handler(97, "Usage: cp file_from file_to\n", NULL, -1, -1);
 
-	fd_from = open(argv[1], O_RDONLY);
-	if (fd_from == -1)
-		error_handler(98, "Error: Can't read from file %s\n", argv[1], -1, -1);
+fd_from = open(argv[1], O_RDONLY);
+if (fd_from == -1)
+error_handler(98, "Error: Can't read from file %s\n", argv[1], -1, -1);
 
-	fd_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
-	if (fd_to == -1)
-		error_handler(99, "Error: Can't write to %s\n", argv[2], fd_from, -1);
+fd_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+if (fd_to == -1)
+error_handler(99, "Error: Can't write to %s\n", argv[2], fd_from, -1);
 
 while ((bytes_read = read(fd_from, buffer, 1024)) > 0)
 {
-	bytes_written = write(fd_to, buffer, bytes_read);
-	if (bytes_written == -1)
-		error_handler(99, "Error: Can't write to %s\n",
-		argv[2], fd_from, fd_to);
+bytes_written = write(fd_to, buffer, bytes_read);
+if (bytes_written == -1 || bytes_written != bytes_read)
+error_handler(99, "Error: Can't write to %s\n",
+argv[2], fd_from, fd_to);
 }
 
-	if (bytes_read == -1)
-		error_handler(98, "Error: Can't read from file %s\n",
-		argv[1], fd_from, fd_to);
+if (bytes_read == -1)
+error_handler(98, "Error: Can't read from file %s\n",
+argv[1], fd_from, fd_to);
 
 return (close_files(fd_from, fd_to));
 }
