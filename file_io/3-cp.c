@@ -4,78 +4,87 @@
 #include <stdlib.h>
 
 /**
- * error_handler - handle error messages and exit
+ * error_exit - prints error message and exits
  * @code: exit code
  * @message: error message format
- * @arg: argument to insert in message
- * @fd_from: file descriptor for source file
- * @fd_to: file descriptor for destination file
+ * @arg: argument for message
  */
-void error_handler(int code, char *message, char *arg, int fd_from, int fd_to)
+void error_exit(int code, char *message, char *arg)
 {
-if (fd_from > 0)
-close(fd_from);
-if (fd_to > 0)
-close(fd_to);
 dprintf(STDERR_FILENO, message, arg);
 exit(code);
 }
 
 /**
- * close_files - close file descriptors
- * @fd_from: source file descriptor
- * @fd_to: destination file descriptor
- * Return: 0 on success
+ * close_fd - closes file descriptor with error handling
+ * @fd: file descriptor to close
  */
-int close_files(int fd_from, int fd_to)
+void close_fd(int fd)
 {
-if (close(fd_from) == -1)
+if (close(fd) == -1)
 {
-dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_from);
+dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
 exit(100);
 }
-if (close(fd_to) == -1)
-{
-dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_to);
-exit(100);
-}
-return (0);
 }
 
 /**
- * main - copies the content of a file to another file
+ * copy_file - copies content from one file to another
+ * @fd_from: source file descriptor
+ * @fd_to: destination file descriptor
+ * @argv: program arguments
+ */
+void copy_file(int fd_from, int fd_to, char *argv[])
+{
+char buffer[1024];
+ssize_t bytes_read, bytes_written;
+
+while ((bytes_read = read(fd_from, buffer, 1024)) > 0)
+{
+bytes_written = write(fd_to, buffer, bytes_read);
+if (bytes_written == -1 || bytes_written != bytes_read)
+{
+close(fd_from);
+close(fd_to);
+error_exit(99, "Error: Can't write to %s\n", argv[2]);
+}
+}
+
+if (bytes_read == -1)
+{
+close(fd_from);
+close(fd_to);
+error_exit(98, "Error: Can't read from file %s\n", argv[1]);
+}
+}
+
+/**
+ * main - copies content from one file to another
  * @argc: argument count
  * @argv: argument vector
  * Return: 0 on success
  */
 int main(int argc, char *argv[])
 {
-int fd_from = -1, fd_to = -1;
-ssize_t bytes_read, bytes_written;
-char buffer[1024];
+int fd_from, fd_to;
 
 if (argc != 3)
-error_handler(97, "Usage: cp file_from file_to\n", NULL, -1, -1);
+error_exit(97, "Usage: cp file_from file_to\n", NULL);
 
 fd_from = open(argv[1], O_RDONLY);
 if (fd_from == -1)
-error_handler(98, "Error: Can't read from file %s\n", argv[1], -1, -1);
+error_exit(98, "Error: Can't read from file %s\n", argv[1]);
 
 fd_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 if (fd_to == -1)
-error_handler(99, "Error: Can't write to %s\n", argv[2], fd_from, -1);
-
-while ((bytes_read = read(fd_from, buffer, 1024)) > 0)
 {
-bytes_written = write(fd_to, buffer, bytes_read);
-if (bytes_written == -1 || bytes_written != bytes_read)
-error_handler(99, "Error: Can't write to %s\n",
-argv[2], fd_from, fd_to);
+close(fd_from);
+error_exit(99, "Error: Can't write to %s\n", argv[2]);
 }
 
-if (bytes_read == -1)
-error_handler(98, "Error: Can't read from file %s\n",
-argv[1], fd_from, fd_to);
+copy_file(fd_from, fd_to, argv);
 
-return (close_files(fd_from, fd_to));
+close_fd(fd_from);
+close_fd(fd_to);
+return (0);
 }
