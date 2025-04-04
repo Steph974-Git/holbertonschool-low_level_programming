@@ -1,10 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <stdlib.h>
 
 /**
- * error_exit - prints error message and exits
+ * error_exit - handles error messages and exits
  * @code: exit code
  * @message: error message format
  * @arg: argument for message
@@ -16,7 +16,7 @@ exit(code);
 }
 
 /**
- * close_fd - closes file descriptor with error handling
+ * close_fd - safely closes a file descriptor
  * @fd: file descriptor to close
  */
 void close_fd(int fd)
@@ -29,7 +29,7 @@ exit(100);
 }
 
 /**
- * copy_file - copies content from one file to another
+ * copy_file - copies content from source to destination
  * @fd_from: source file descriptor
  * @fd_to: destination file descriptor
  * @argv: program arguments
@@ -42,7 +42,7 @@ ssize_t bytes_read, bytes_written;
 while ((bytes_read = read(fd_from, buffer, 1024)) > 0)
 {
 bytes_written = write(fd_to, buffer, bytes_read);
-if (bytes_written == -1 || bytes_written != bytes_read)
+if (fd_to == -1 || bytes_written != bytes_read)
 {
 close(fd_from);
 close(fd_to);
@@ -53,13 +53,14 @@ error_exit(99, "Error: Can't write to %s\n", argv[2]);
 if (bytes_read == -1)
 {
 close(fd_from);
+if (fd_to != -1)
 close(fd_to);
 error_exit(98, "Error: Can't read from file %s\n", argv[1]);
 }
 }
 
 /**
- * main - copies content from one file to another
+ * main - entry point for cp program
  * @argc: argument count
  * @argv: argument vector
  * Return: 0 on success
