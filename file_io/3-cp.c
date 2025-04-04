@@ -4,10 +4,10 @@
 #include <fcntl.h>
 
 /**
- * close_checked - Ferme un descripteur de fichier avec vérification
- * @fd: Descripteur à fermer
+ * handle_close - Gère la fermeture sécurisée d'un descripteur de fichier
+ * @fd: Le descripteur de fichier à fermer
  */
-void close_checked(int fd)
+void handle_close(int fd)
 {
 	if (close(fd) == -1)
 	{
@@ -17,13 +17,13 @@ void close_checked(int fd)
 }
 
 /**
- * check_args - Vérifie les arguments et ouvre les fichiers
+ * validate_args - Vérifie les arguments et initialise les fichiers
  * @argc: Nombre d'arguments
  * @argv: Tableau des arguments
  * @fd_from: Pointeur vers le descripteur du fichier source
  * @fd_to: Pointeur vers le descripteur du fichier destination
  */
-void check_args(int argc, char *argv[], int *fd_from, int *fd_to)
+void validate_args(int argc, char *argv[], int *fd_from, int *fd_to)
 {
 	if (argc != 3)
 	{
@@ -39,6 +39,12 @@ void check_args(int argc, char *argv[], int *fd_from, int *fd_to)
 	}
 
 	*fd_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	if (*fd_to == -1)
+	{
+		close(*fd_from);
+		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
+		exit(99);
+	}
 }
 
 /**
@@ -50,33 +56,33 @@ void check_args(int argc, char *argv[], int *fd_from, int *fd_to)
  */
 int main(int argc, char *argv[])
 {
-	int fd_from = -1, fd_to = -1;
-	ssize_t n_read, n_write;
+	int source_fd = -1, dest_fd = -1;
+	ssize_t bytes_read, bytes_written;
 	char buffer[1024];
 
-	check_args(argc, argv, &fd_from, &fd_to);
+	validate_args(argc, argv, &source_fd, &dest_fd);
 
-	while ((n_read = read(fd_from, buffer, 1024)) > 0)
+	while ((bytes_read = read(source_fd, buffer, 1024)) > 0)
 	{
-		n_write = write(fd_to, buffer, n_read);
-		if (fd_to == -1 || n_write != n_read)
+		bytes_written = write(dest_fd, buffer, bytes_read);
+		if (bytes_written == -1 || bytes_written != bytes_read)
 		{
 			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-			close(fd_from);
+			close(source_fd);
+			close(dest_fd);
 			exit(99);
 		}
 	}
 
-	if (n_read == -1)
+	if (bytes_read == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-		close(fd_from);
-		if (fd_to != -1)
-			close(fd_to);
+		close(source_fd);
+		close(dest_fd);
 		exit(98);
 	}
 
-	close_checked(fd_from);
-	close_checked(fd_to);
+	handle_close(source_fd);
+	handle_close(dest_fd);
 	return (0);
 }
