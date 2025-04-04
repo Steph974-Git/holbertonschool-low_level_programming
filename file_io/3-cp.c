@@ -4,10 +4,10 @@
 #include <fcntl.h>
 
 /**
- * close_fd - safely closes a file descriptor
- * @fd: file descriptor to close
+ * close_checked - Ferme un descripteur de fichier avec vérification
+ * @fd: Descripteur à fermer
  */
-void close_fd(int fd)
+void close_checked(int fd)
 {
 	if (close(fd) == -1)
 	{
@@ -17,11 +17,11 @@ void close_fd(int fd)
 }
 
 /**
- * check_args - checks arguments and opens files
- * @argc: argument count
- * @argv: argument vector
- * @fd_from: pointer to source file descriptor
- * @fd_to: pointer to destination file descriptor
+ * check_args - Vérifie les arguments et ouvre les fichiers
+ * @argc: Nombre d'arguments
+ * @argv: Tableau des arguments
+ * @fd_from: Pointeur vers le descripteur du fichier source
+ * @fd_to: Pointeur vers le descripteur du fichier destination
  */
 void check_args(int argc, char *argv[], int *fd_from, int *fd_to)
 {
@@ -48,23 +48,24 @@ void check_args(int argc, char *argv[], int *fd_from, int *fd_to)
 }
 
 /**
- * main - entry point for cp program
- * @argc: argument count
- * @argv: argument vector
- * Return: 0 on success
+ * main - Programme qui copie le contenu d'un fichier vers un autre
+ * @argc: Nombre d'arguments
+ * @argv: Tableau des arguments
+ *
+ * Return: 0 en cas de succès
  */
 int main(int argc, char *argv[])
 {
 	int fd_from = -1, fd_to = -1;
-	ssize_t bytes_read, bytes_written;
+	ssize_t n_read, n_write;
 	char buffer[1024];
 
 	check_args(argc, argv, &fd_from, &fd_to);
 
-	while ((bytes_read = read(fd_from, buffer, 1024)) > 0)
+	while ((n_read = read(fd_from, buffer, 1024)) > 0)
 	{
-		bytes_written = write(fd_to, buffer, bytes_read);
-		if (fd_to == -1 || bytes_written != bytes_read)
+		n_write = write(fd_to, buffer, n_read);
+		if (fd_to == -1 || n_write != n_read)
 		{
 			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
 			close(fd_from);
@@ -73,7 +74,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	if (bytes_read == -1)
+	if (n_read == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
 		close(fd_from);
@@ -81,7 +82,7 @@ int main(int argc, char *argv[])
 		exit(98);
 	}
 
-	close_fd(fd_from);
-	close_fd(fd_to);
+	close_checked(fd_from);
+	close_checked(fd_to);
 	return (0);
 }
