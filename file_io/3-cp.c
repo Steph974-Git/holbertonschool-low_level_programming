@@ -29,6 +29,40 @@ exit(100);
 }
 
 /**
+ * read_and_write - reads from source and writes to destination
+ * @fd_from: source file descriptor
+ * @fd_to: destination file descriptor
+ * @buffer: buffer for reading/writing
+ * @argv: program arguments
+ * Return: 0 on success
+ */
+int read_and_write(int fd_from, int fd_to, char *buffer, char *argv[])
+{
+ssize_t bytes_read, bytes_written;
+
+bytes_read = read(fd_from, buffer, 1024);
+if (bytes_read == -1)
+{
+close(fd_from);
+if (fd_to != -1)
+close(fd_to);
+error_exit(98, "Error: Can't read from file %s\n", argv[1]);
+}
+if (bytes_read > 0)
+{
+bytes_written = write(fd_to, buffer, bytes_read);
+if (bytes_written != bytes_read)
+{
+close(fd_from);
+close(fd_to);
+error_exit(99, "Error: Can't write to %s\n", argv[2]);
+}
+return (1);
+}
+return (0);
+}
+
+/**
  * copy_file - copies content from source to destination
  * @fd_from: source file descriptor
  * @fd_to: destination file descriptor
@@ -37,26 +71,10 @@ exit(100);
 void copy_file(int fd_from, int fd_to, char *argv[])
 {
 char buffer[1024];
-ssize_t bytes_read, bytes_written;
+int more_to_read = 1;
 
-while ((bytes_read = read(fd_from, buffer, 1024)) > 0)
-{
-bytes_written = write(fd_to, buffer, bytes_read);
-if (fd_to == -1 || bytes_written != bytes_read)
-{
-close(fd_from);
-close(fd_to);
-error_exit(99, "Error: Can't write to %s\n", argv[2]);
-}
-}
-
-if (bytes_read == -1)
-{
-close(fd_from);
-if (fd_to != -1)
-close(fd_to);
-error_exit(98, "Error: Can't read from file %s\n", argv[1]);
-}
+while (more_to_read)
+more_to_read = read_and_write(fd_from, fd_to, buffer, argv);
 }
 
 /**
