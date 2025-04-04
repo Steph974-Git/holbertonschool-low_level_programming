@@ -97,7 +97,7 @@ int more_to_read = 1;
 if (argc != 3)
 error_exit(97, "Usage: cp file_from file_to\n", NULL);
 
-if (strcmp(argv[1], argv[2]) == 0)
+if (_strcmp(argv[1], argv[2]) == 0)
 error_exit(99, "Error: Can't write to %s\n", argv[2]);
 
 fd_from = open(argv[1], O_RDONLY);
